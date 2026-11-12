@@ -17,6 +17,7 @@ def read_csv(file_path: str) -> pd.DataFrame:
     pd.DataFrame: Loaded data.
     """
 
+    data = pd.read_csv(file_path)
     return data
 
 
@@ -33,6 +34,8 @@ def train_decision_tree(X: np.array, y: np.array, max_depth: int = None) -> Deci
     DecisionTreeClassifier: Trained Decision Tree model.
     """
 
+    model = DecisionTreeClassifier(max_depth=max_depth, random_state=42)
+    model.fit(X, y)
     return model
 
 
@@ -47,6 +50,11 @@ def evaluate_model(y_true: np.array, y_pred: np.array) -> dict:
     Returns:
     dict: Evaluation metrics (accuracy, precision, recall, F1-score).
     """
+
+    accuracy = accuracy_score(y_true, y_pred)
+    precision = precision_score(y_true, y_pred, zero_division=0)
+    recall = recall_score(y_true, y_pred, zero_division=0)
+    f1 = f1_score(y_true, y_pred, zero_division=0)
 
     return {"Accuracy": accuracy, "Precision": precision, "Recall": recall, "F1-Score": f1}
 
@@ -77,7 +85,7 @@ def visualize_decision_boundary(X: np.array, y: np.array, model: DecisionTreeCla
 
 if __name__ == "__main__":
     # Step 1: Generate synthetic dataset
-    file_path = "../data.csv"
+    file_path = "data.csv"
 
     # Step 2: Read the dataset
     data = read_csv(file_path)
